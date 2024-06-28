@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Twins AI extension",
+  "version": "1.0.0",
+  "action": { "default_popup": "index.html" },
+  "background": {
+    "service_worker": "./src/background/background.ts"
+  },
+  "options_page": "src/optionsPage/optionsPage.html",
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
+  "content_scripts": [
+    {
+      "js": ["src/content/content.tsx"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
