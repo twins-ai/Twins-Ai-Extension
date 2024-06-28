@@ -2,20 +2,30 @@
 import "./App.css";
 
 // import useFetchToken from "./hooks/twilio";
-import { Button } from "./components/buttons";
+
 import BottomNavigation from "./layouts/Navbar";
-import { CiUser } from "react-icons/ci";
-import { HiOutlineUserGroup } from "react-icons/hi2";
-import { IoBulbOutline } from "react-icons/io5";
-import { BsListTask } from "react-icons/bs";
-import { MdTaskAlt } from "react-icons/md";
+import ContactPage from "./pages/contacts";
+
+import {
+  LightBulbIcon,
+  UserIcon,
+  UserGroupIcon,
+  ListBulletIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 const navigationItems = [
-  { label: "Prospect", icon: <CiUser size="1.5rem" /> },
-  { label: "Insights", icon: <IoBulbOutline size="1.5rem" /> },
-  { label: "Colleagues", icon: <HiOutlineUserGroup size="1.5rem" /> },
-  { label: "Activities", icon: <BsListTask size="1.5rem" /> },
-  { label: "Tasks", icon: <MdTaskAlt size="1.5rem" /> },
+  { label: "Prospect", icon: <UserIcon height="1.5rem" width="1.5rem" /> },
+  { label: "Insights", icon: <LightBulbIcon height="1.5rem" width="1.5rem" /> },
+  {
+    label: "Colleagues",
+    icon: <UserGroupIcon height="1.5rem" width="1.5rem" />,
+  },
+  {
+    label: "Activities",
+    icon: <ListBulletIcon height="1.5rem" width="1.5rem" />,
+  },
+  { label: "Tasks", icon: <CheckIcon height="1.5rem" width="1.5rem" /> },
 ];
 
 function App() {
@@ -67,8 +77,9 @@ function App() {
   // };
 
   return (
-    <div className="h-[800px] w-[600px]">
-      <Button
+    <div className="h-[800px] w-[400px]">
+      <ContactPage />
+      {/* <Button
         text="Primary Filled Small"
         color="primary"
         variant="filled"
@@ -88,8 +99,7 @@ function App() {
         variant="filled"
         size="large"
         onClick={() => alert("Clicked!")}
-      />
-
+      /> */}
       <BottomNavigation items={navigationItems} />
     </div>
   );

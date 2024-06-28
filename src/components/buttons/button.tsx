@@ -7,7 +7,7 @@ const baseClasses =
 
 const colorClasses = {
   primary:
-    "bg-indigo-500 text-white hover:bg-indigo-400 focus-visible:outline-indigo-500",
+    "bg-blue-500 text-white hover:bg-blue-400 focus-visible:outline-blue-500",
   secondary:
     "bg-gray-500 text-white hover:bg-gray-400 focus-visible:outline-gray-500",
 };
@@ -15,8 +15,8 @@ const colorClasses = {
 const variantClasses = {
   filled: "",
   outlined:
-    "border border-indigo-500 text-indigo-500 bg-transparent hover:bg-indigo-500 hover:text-white",
-  text: "text-indigo-500 bg-transparent hover:bg-indigo-100",
+    "border border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500 hover:text-white",
+  text: "text-blue-500 bg-transparent hover:bg-blue-100",
 };
 
 const sizeClasses = {
