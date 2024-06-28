@@ -1,5 +1,7 @@
 // import { useRef } from "react";
 import "./App.css";
+import Avatar from "./components/avatar";
+import VoiceVisualizer from "./components/voice";
 
 // import useFetchToken from "./hooks/twilio";
 
@@ -79,6 +81,28 @@ function App() {
   return (
     <div className="h-[800px] w-[400px]">
       <ContactPage />
+
+      <div className="flex justify-center items-center h-[200px]">
+        <Avatar
+          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt="User Avatar"
+          status="online"
+        />
+        <div>
+          <h2 className="mb-4 ml-4 mt-2 text-sm font-semibold text-gray-600">
+            Subhashish Jung Shah
+          </h2>
+          <h2 className="ml-4  text-xs font-semibold text-gray-500">
+            Full Stack Developer
+          </h2>
+        </div>
+      </div>
+      <div className=" flex flex-col justify-center items-center h-[100px]">
+        <VoiceVisualizer />
+        <h2 className="mb-4 mt-4 text-sm font-semibold text-green-400">
+          Active
+        </h2>
+      </div>
       {/* <Button
         text="Primary Filled Small"
         color="primary"
