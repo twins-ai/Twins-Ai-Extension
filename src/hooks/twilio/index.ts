@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
+import { api } from "../../utils/client";
 
 type TokenData = {
   token: string;
@@ -10,14 +10,6 @@ type FetchState<T> = {
   loading: boolean;
   error: Error | null;
 };
-
-export const api = axios.create({
-  baseURL: "http://localhost:3333/api/v1",
-  headers: {
-    "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
-  },
-});
 
 const useFetchToken = (): FetchState<TokenData> => {
   const [state, setState] = useState<FetchState<TokenData>>({
