@@ -1,24 +1,13 @@
-// src/components/ContactList.tsx
-
 import React from "react";
 import ContactItem from "../../components/contacts/ContactItems";
 import BottomNavigation from "../../layouts/Navbar";
-
-interface Contact {
-  name: string;
-  phone: string;
-}
+import useContacts from "../../hooks/contacts";
+import { Contact } from "../../hooks/contacts/types";
+import Loader from "../../components/loader";
 
 interface ContactListProps {
   contacts: Contact[];
 }
-
-// Todos: Make this section dynamic from our backend
-const contacts = [
-  { name: "Mindy Kaling", phone: "(415) 123-4567" },
-  { name: "Sara Lee", phone: "(415) 765-4321" },
-  { name: "Peggy Olson", phone: "(408) 234-5678" },
-];
 
 const ContactList: React.FC<ContactListProps> = ({ contacts }) => {
   return (
@@ -34,6 +23,10 @@ const ContactList: React.FC<ContactListProps> = ({ contacts }) => {
 };
 
 export const AutoDialer = () => {
+  const { contacts, isLoading, error } = useContacts(
+    "58e48768-03cd-48eb-bda4-d6bd96763ca2"
+  ); // Pass the userId
+
   return (
     <div className="max-h-screen flex flex-col justify-between">
       <div>
@@ -53,7 +46,13 @@ export const AutoDialer = () => {
             />
           </svg>
         </button>
-        <ContactList contacts={contacts} />
+        {isLoading ? (
+          <Loader /> // Show Loader while loading
+        ) : error ? (
+          <div className="m-4 text-red-500">Error: {error}</div> // Show error if exists
+        ) : (
+          <ContactList contacts={contacts || []} /> // Show contacts if loaded
+        )}
       </div>
       <button className="bg-blue-500 text-white py-3 rounded-lg m-4">
         Start Auto Dialer

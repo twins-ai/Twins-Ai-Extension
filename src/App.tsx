@@ -1,7 +1,8 @@
 // import { useRef } from "react";
 // import { useEffect, useState } from "react";
 import "./App.css";
-import CallInformation from "./pages/call-info";
+// import CallInformation from "./pages/call-info";
+import { AutoDialer } from "./pages/contacts";
 // import Avatar from "./components/avatar";
 // import VoiceVisualizer from "./components/voice";
 
@@ -118,9 +119,8 @@ function App() {
 
   return (
     <div className="min-h-[500px] w-[400px]">
-      {/* <ContactList contacts={contacts} /> */}
-      {/* <AutoDialer /> */}
-      <CallInformation />
+      <AutoDialer />
+      {/* <CallInformation /> */}
       {/* <SalesCall /> */}
     </div>
   );
