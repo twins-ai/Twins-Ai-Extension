@@ -4,6 +4,8 @@ import BottomNavigation from "../../layouts/Navbar";
 import useContacts from "../../hooks/contacts";
 import { Contact } from "../../hooks/contacts/types";
 import Loader from "../../components/loader";
+import { Link } from "react-chrome-extension-router";
+import SalesCall from "../sales-call";
 
 interface ContactListProps {
   contacts: Contact[];
@@ -54,8 +56,14 @@ export const AutoDialer = () => {
           <ContactList contacts={contacts || []} /> // Show contacts if loaded
         )}
       </div>
+
       <button className="bg-blue-500 text-white py-3 rounded-lg m-4">
-        Start Auto Dialer
+        <Link
+          component={SalesCall}
+          props={{ message: "I came from component one!" }}
+        >
+          Start Auto Dialer
+        </Link>
       </button>
     </div>
   );

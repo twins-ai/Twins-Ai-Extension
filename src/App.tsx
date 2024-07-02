@@ -1,8 +1,15 @@
 // import { useRef } from "react";
 // import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./App.css";
-// import CallInformation from "./pages/call-info";
 import { AutoDialer } from "./pages/contacts";
+import {
+  Router,
+  getCurrent,
+  getComponentStack,
+} from "react-chrome-extension-router";
+
+// import CallInformation from "./pages/call-info";
 // import Avatar from "./components/avatar";
 // import VoiceVisualizer from "./components/voice";
 
@@ -116,10 +123,22 @@ function App() {
   //     handleConferenceCall(currentIndex);
   //   }
   // }, [currentIndex, isDeviceReady, isCalling]);
+  useEffect(() => {
+    const { component, props } = getCurrent();
+    console.log(
+      component
+        ? `There is a component on the stack! ${component} with ${props}`
+        : `The current stack is empty so Router's direct children will be rendered`
+    );
+    const components = getComponentStack();
+    console.log(`The stack has ${components.length} components on the stack`);
+  });
 
   return (
     <div className="min-h-[500px] w-[400px]">
-      <AutoDialer />
+      <Router>
+        <AutoDialer />
+      </Router>
       {/* <CallInformation /> */}
       {/* <SalesCall /> */}
     </div>
