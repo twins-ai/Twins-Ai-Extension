@@ -4,7 +4,7 @@ import BottomNavigation from "../../layouts/Navbar";
 import useContacts from "../../hooks/contacts";
 import { Contact } from "../../hooks/contacts/types";
 import Loader from "../../components/loader";
-import { Link } from "react-chrome-extension-router";
+import { goTo } from "react-chrome-extension-router";
 import SalesCall from "../sales-call";
 
 interface ContactListProps {
@@ -57,13 +57,11 @@ export const AutoDialer = () => {
         )}
       </div>
 
-      <button className="bg-blue-500 text-white py-3 rounded-lg m-4">
-        <Link
-          component={SalesCall}
-          props={{ message: "I came from component one!" }}
-        >
-          Start Auto Dialer
-        </Link>
+      <button
+        className="bg-blue-500 text-white py-3 rounded-lg m-4"
+        onClick={() => goTo(SalesCall, { contacts })}
+      >
+        Start Auto Dialer
       </button>
     </div>
   );

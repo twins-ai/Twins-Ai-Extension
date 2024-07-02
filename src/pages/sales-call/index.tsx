@@ -1,6 +1,6 @@
 import React from "react";
 
-const SalesCall: React.FC = () => {
+const SalesCall: React.FC = ({ contacts }: any) => {
   return (
     <div className="max-w-sm mx-auto bg-[#FCF7F7] p-4">
       <div className="flex items-center justify-between">
