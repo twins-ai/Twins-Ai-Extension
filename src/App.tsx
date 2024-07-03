@@ -2,12 +2,12 @@
 // import { useEffect, useState } from "react";
 import { useEffect } from "react";
 import "./App.css";
-import { AutoDialer } from "./pages/contacts";
 import {
   Router,
   getCurrent,
   getComponentStack,
 } from "react-chrome-extension-router";
+import Login from "./pages/login";
 
 // import CallInformation from "./pages/call-info";
 // import Avatar from "./components/avatar";
@@ -137,7 +137,8 @@ function App() {
   return (
     <div className="min-h-[500px] w-[400px]">
       <Router>
-        <AutoDialer />
+        {/* <AutoDialer /> */}
+        <Login />
       </Router>
       {/* <CallInformation /> */}
       {/* <SalesCall /> */}
