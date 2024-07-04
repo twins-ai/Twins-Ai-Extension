@@ -8,10 +8,10 @@ const useContacts = (userId: string): UseContactsResult => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchContacts = async () => {
+    const fetchContacts = async (userId: string) => {
       try {
         // Todos: Make this api call on the basis of userId
-        const response = await api.get(`/contacts`);
+        const response = await api.get(`/contacts?userId=${userId}`);
         setContacts(response.data?.contacts || []);
       } catch (err) {
         setError((err as Error).message);
@@ -20,7 +20,7 @@ const useContacts = (userId: string): UseContactsResult => {
       }
     };
 
-    fetchContacts();
+    fetchContacts(userId);
   }, [userId]);
 
   return { contacts, isLoading, error };

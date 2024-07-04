@@ -1,9 +1,12 @@
-// useLogin.ts
 import { useState } from "react";
 import { api } from "../../utils/client";
 import { goTo } from "react-chrome-extension-router";
 import { AutoDialer } from "../../pages/contacts";
-import { setToken } from "../../utils/sessionManager";
+import {
+  setExtUserId,
+  setPhoneNumber,
+  setToken,
+} from "../../utils/sessionManager";
 
 interface LoginData {
   email: string;
@@ -26,11 +29,12 @@ const useLogin = (): UseLoginResponse => {
 
     try {
       const response = await api.post("/auth/login", data);
-      // Handle response if needed
       console.log("Response", response.data);
       console.log("token", response.data.access_token);
       console.log("Logged in successfully");
       await setToken(response.data.access_token);
+      await setPhoneNumber(response.data.phoneNumber);
+      await setExtUserId(response.data.id);
       goTo(AutoDialer, { message: "Logged in successfully" });
     } catch (err) {
       setError("Error while logging into the account");

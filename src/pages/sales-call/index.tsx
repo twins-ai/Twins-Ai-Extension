@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useFetchToken from "../../hooks/twilio";
 import useTwilioDevice from "../../hooks/twilio/useTwilioDevice";
 import useSocket from "../../hooks/socket";
+import { getPhoneNumber } from "../../utils/sessionManager";
 
 const SalesCall: React.FC = ({ contacts }: any) => {
   const { tokenData } = useFetchToken();
@@ -11,12 +12,13 @@ const SalesCall: React.FC = ({ contacts }: any) => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCalling, setIsCalling] = useState(false);
-  const [message, setMessage] = useState<string>("");
+  const [userPhoneNumber, setUserPhoneNumber] = useState<string>("");
+  const [message, setMessage] = useState<string | null>(null);
 
   const handleCallStatus = async (data: any) => {
     if (data?.status === "completed") {
       await disconnectAllCalls();
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
@@ -34,10 +36,10 @@ const SalesCall: React.FC = ({ contacts }: any) => {
     setIsCalling(true);
 
     try {
-      if (isDeviceReady) {
+      if (isDeviceReady && userPhoneNumber) {
         const params = {
           To: contact.phone,
-          callerId: "+14156875897",
+          callerId: userPhoneNumber,
         };
 
         const callInstance: any = await connectCall(params);
@@ -88,10 +90,18 @@ const SalesCall: React.FC = ({ contacts }: any) => {
   };
 
   useEffect(() => {
-    if (currentIndex < contacts.length && isDeviceReady && !isCalling) {
+    if (currentIndex <= contacts.length && isDeviceReady && !isCalling) {
       handleConferenceCall(currentIndex);
     }
   }, [currentIndex, isDeviceReady, isCalling, contacts]);
+
+  useEffect(() => {
+    getPhoneNumber().then((sessionPhoneNumber) => {
+      if (sessionPhoneNumber) {
+        setUserPhoneNumber(sessionPhoneNumber);
+      }
+    });
+  }, []);
 
   return (
     <div className="max-w-sm mx-auto bg-[#FCF7F7] p-4">

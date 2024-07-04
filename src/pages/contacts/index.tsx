@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ContactItem from "../../components/contacts/ContactItems";
 import BottomNavigation from "../../layouts/Navbar";
 import useContacts from "../../hooks/contacts";
@@ -6,6 +6,8 @@ import { Contact } from "../../hooks/contacts/types";
 import Loader from "../../components/loader";
 import { goTo } from "react-chrome-extension-router";
 import SalesCall from "../sales-call";
+import { clearLocalStorage, getExtUserId } from "../../utils/sessionManager";
+import Login from "../login";
 
 interface ContactListProps {
   contacts: Contact[];
@@ -25,9 +27,23 @@ const ContactList: React.FC<ContactListProps> = ({ contacts }) => {
 };
 
 export const AutoDialer = () => {
-  const { contacts, isLoading, error } = useContacts(
-    "58e48768-03cd-48eb-bda4-d6bd96763ca2"
-  ); // Pass the userId
+  const [userId, setUserId] = useState<string | null>(null);
+  const { contacts, isLoading, error } = useContacts(userId);
+
+  const handleLogout = async () => {
+    console.log("Logout Button was clicked");
+    await clearLocalStorage();
+    goTo(Login, { message: "Session Logged out" });
+  };
+
+  useEffect(() => {
+    getExtUserId().then((userId) => {
+      if (userId) {
+        setUserId(userId);
+        console.log(userId);
+      }
+    });
+  }, []);
 
   return (
     <div className="max-h-screen flex flex-col justify-between">
@@ -62,6 +78,12 @@ export const AutoDialer = () => {
         onClick={() => goTo(SalesCall, { contacts })}
       >
         Start Auto Dialer
+      </button>
+      <button
+        className="bg-blue-500 text-white py-3 rounded-lg m-4"
+        onClick={handleLogout}
+      >
+        Logout from extension
       </button>
     </div>
   );
