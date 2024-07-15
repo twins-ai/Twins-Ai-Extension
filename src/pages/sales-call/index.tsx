@@ -3,6 +3,8 @@ import useFetchToken from "../../hooks/twilio";
 import useTwilioDevice from "../../hooks/twilio/useTwilioDevice";
 import useSocket from "../../hooks/socket";
 import { getPhoneNumber } from "../../utils/sessionManager";
+import { goTo } from "react-chrome-extension-router";
+import { AutoDialer } from "../contacts";
 
 const SalesCall: React.FC = ({ contacts }: any) => {
   const { tokenData } = useFetchToken();
@@ -14,11 +16,15 @@ const SalesCall: React.FC = ({ contacts }: any) => {
   const [isCalling, setIsCalling] = useState(false);
   const [userPhoneNumber, setUserPhoneNumber] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
+  const [isDelayed, setIsDelayed] = useState(false);
+  const [countdown, setCountdown] = useState(0);
 
   const handleCallStatus = async (data: any) => {
     if (data?.status === "completed") {
       await disconnectAllCalls();
-      setCurrentIndex(currentIndex + 1);
+      setIsCalling(false);
+      setIsDelayed(true);
+      setCountdown(10); // Set countdown to 10 seconds
     }
   };
 
@@ -70,14 +76,16 @@ const SalesCall: React.FC = ({ contacts }: any) => {
           console.log(`Call to ${contact.phone} disconnected`);
           setMessage(`Call to ${contact.phone} disconnected`);
           setIsCalling(false);
-          setCurrentIndex((prevIndex) => prevIndex + 1);
+          setIsDelayed(true);
+          setCountdown(10); // Set countdown to 10 seconds
         });
 
         callInstance.on("cancel", () => {
           console.log(`Call to ${contact.phone} cancelled`);
           setMessage(`Call to ${contact.phone} cancelled`);
           setIsCalling(false);
-          setCurrentIndex((prevIndex) => prevIndex + 1);
+          setIsDelayed(true);
+          setCountdown(10);
         });
       } else {
         console.log("Device is not ready yet. Retrying...");
@@ -86,14 +94,38 @@ const SalesCall: React.FC = ({ contacts }: any) => {
     } catch (error) {
       console.error(`Error making call to ${contact.phone}:`, error);
       setIsCalling(false);
+      setIsDelayed(true);
+      setCountdown(10);
     }
   };
 
+  const handleCallDisconnect = async () => {
+    await disconnectAllCalls();
+    goTo(AutoDialer, { message: "Kill call switch triggered" });
+  };
+
   useEffect(() => {
-    if (currentIndex <= contacts.length && isDeviceReady && !isCalling) {
+    if (countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (countdown === 0 && isDelayed) {
+      setIsDelayed(false);
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    }
+  }, [countdown, isDelayed]);
+
+  useEffect(() => {
+    if (
+      currentIndex < contacts.length &&
+      isDeviceReady &&
+      !isCalling &&
+      !isDelayed
+    ) {
       handleConferenceCall(currentIndex);
     }
-  }, [currentIndex, isDeviceReady, isCalling, contacts]);
+  }, [currentIndex, isDeviceReady, isCalling, isDelayed, contacts]);
 
   useEffect(() => {
     getPhoneNumber().then((sessionPhoneNumber) => {
@@ -146,12 +178,19 @@ const SalesCall: React.FC = ({ contacts }: any) => {
       <div className="text-center font-semibold text-gray-600">
         {message || "Amy is talking about the future of work. Listen in."}
       </div>
+      {isDelayed && (
+        <div className="text-center font-semibold text-red-600">
+          Next call in {countdown} seconds
+        </div>
+      )}
       <div className="flex items-center justify-between mt-4">
         <button className="text-gray-600">Pause</button>
         <button className="bg-red-500 text-white px-4 py-2 rounded-full">
           Join
         </button>
-        <button className="text-gray-600">End</button>
+        <button className="text-gray-600" onClick={handleCallDisconnect}>
+          End
+        </button>
       </div>
     </div>
   );

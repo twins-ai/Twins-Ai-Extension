@@ -26,12 +26,8 @@ const useLogin = (): UseLoginResponse => {
   const login = async (data: LoginData): Promise<void> => {
     setLoading(true);
     setError(null);
-
     try {
       const response = await api.post("/auth/login", data);
-      console.log("Response", response.data);
-      console.log("token", response.data.access_token);
-      console.log("Logged in successfully");
       await setToken(response.data.access_token);
       await setPhoneNumber(response.data.phoneNumber);
       await setExtUserId(response.data.id);

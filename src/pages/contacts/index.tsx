@@ -28,7 +28,7 @@ const ContactList: React.FC<ContactListProps> = ({ contacts }) => {
 
 export const AutoDialer = () => {
   const [userId, setUserId] = useState<string | null>(null);
-  const { contacts, isLoading, error } = useContacts(userId);
+  const { contacts, isLoading, error } = useContacts(userId as string);
 
   const handleLogout = async () => {
     console.log("Logout Button was clicked");
