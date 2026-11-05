@@ -7,7 +7,7 @@ import manifest from "./manifest.json";
 export default defineConfig({
   plugins: [react(), crx({ manifest })],
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         background: "src/background/background.ts",
         content: "src/content/content.tsx",
