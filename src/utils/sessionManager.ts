@@ -2,7 +2,7 @@
 
 export const getToken = (): Promise<string | null> => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(["token"], (result) => {
+    chrome.storage.local.get<{ token?: string }>(["token"], (result) => {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }
@@ -37,7 +37,7 @@ export const deleteToken = (): Promise<void> => {
 
 export const getUser = (): Promise<string | null> => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(["user"], (result) => {
+    chrome.storage.local.get<{ token?: string }>(["user"], (result) => {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }
@@ -72,7 +72,7 @@ export const deleteUser = (): Promise<void> => {
 
 export const getPhoneNumber = (): Promise<string | null> => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(["sessionPhoneNumber"], (result) => {
+    chrome.storage.local.get<{ sessionPhoneNumber?: string }>(["sessionPhoneNumber"], (result) => {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }
@@ -118,7 +118,7 @@ export const clearLocalStorage = (): Promise<void> => {
 
 export const getExtUserId = (): Promise<string | null> => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(["extUserId"], (result) => {
+    chrome.storage.local.get<{ extUserId?: string }>(["extUserId"], (result) => {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }

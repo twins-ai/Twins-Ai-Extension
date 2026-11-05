@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Device } from "@twilio/voice-sdk";
+import { Call, Device } from "@twilio/voice-sdk";
 
 interface UseTwilioDeviceProps {
   token: string;
@@ -13,7 +13,7 @@ const useTwilioDevice = ({ token }: UseTwilioDeviceProps) => {
     if (token) {
       console.log("Initializing Twilio Device with token.");
       device.current = new Device(token, {
-        codecPreferences: ["opus", "pcmu"],
+        codecPreferences: [Call.Codec.Opus, Call.Codec.PCMU],
       });
 
       device.current.register();
