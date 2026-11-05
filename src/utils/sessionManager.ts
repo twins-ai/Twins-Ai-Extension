@@ -37,7 +37,7 @@ export const deleteToken = (): Promise<void> => {
 
 export const getUser = (): Promise<string | null> => {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get<{ token?: string }>(["user"], (result) => {
+    chrome.storage.local.get<{ user?: string; token?: string }>(["user"], (result) => {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError);
       }
