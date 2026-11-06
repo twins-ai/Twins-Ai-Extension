@@ -3,7 +3,7 @@ import { ButtonProps } from "./types";
 import React from "react";
 
 const baseClasses =
-  "rounded font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
+  "rounded-sm font-semibold shadow-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
 
 const colorClasses = {
   primary:
